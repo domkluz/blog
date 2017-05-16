@@ -1,0 +1,13 @@
+<!DOCTYPE html> 
+
+<h1> Are you sure you would like to delete this entry?</h1>
+
+<span>
+    <form method = "link" formaction = "{{url_for('delete_entry',article_id=article_id)}}">
+        <input type = "submit" value = "Yes" method="POST">
+        <form method = "link" formaction = "{{url_for('entries')}}">
+        <input type = "submit" value = "No" method="POST">
+    </form>
+    
+    
+</span>    

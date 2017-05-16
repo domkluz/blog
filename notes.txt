@@ -1,0 +1,25 @@
+@i_get_called_last
+@i_get_called_second
+@i_get_called_first
+def my_decorated_function():
+    return 1+2
+    
+
+@app.route("/")
+@app.route("/page/<int:page>")
+
+My understanding of decroators are such that it will start with inner most first
+therefore will start with @app.route("/page/<int:page>")
+So how does it work that when I first start the app it foes to "/"
+So how does it skip the first decortor
+
+THIS WON'T WORK
+href = "{{url_for('view_entry',article_id = {{entry.id}} )}}"
+
+THIS WILL WORK. I THINK BECAUSE THERE ARE ALREADY OUTER BRACKETS PRESENT
+href = "{{url_for('view_entry',article_id = entry.id )}}"
+
+When trying to delete record try and use methods=["DELETE"]) - have to leave blank? why?
+I tried all other post/get/put/delete and none worked except for blank
+
+

@@ -1,0 +1,39 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<h1 class="drop-down-heading">Entries per page</h1>
+
+<form method = "POST" action = "{{url_for('entries')}}" name="drop-down">
+    
+    <select name ="number-posts" required>
+        <option value = "5" name = "5">5</option>
+        <option value = "10" name = "10">10</option>
+        <option value = "15" name = "15">15</option>
+    </select>
+    <input type ="submit" value = "Submit" name ="test">
+</form>
+
+{%for entry in entries %}
+{{macros.render_entry(entry)}}
+{% endfor %}
+
+<ul class = "pager">
+    {% if has_next %}
+    <li class = "previous">
+    <a href = "{{url_for('entries', page = page +1)}}" > &larr; Older </a>
+    </li>
+    {% endif %}
+    {% if has_prev %}
+    <li class = "next">
+    <a href = "{{url_for('entries',page = page -1)}}" > &rarr; Newer</a>
+    </li>
+    {% endif %}
+</ul>
+
+{% endblock %}
+
+
