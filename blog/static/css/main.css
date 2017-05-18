@@ -3,4 +3,6 @@
 
 .clickable-link {font-size: 40px}
 
-.drop-down-heading {font-size: 15px}
+.delete-entry {font-size: 15px}
+
+.yes-button, .no-button {display:inline-block;}

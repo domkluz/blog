@@ -7,14 +7,13 @@
 
 <h1 class="drop-down-heading">Entries per page</h1>
 
-<form method = "POST" action = "{{url_for('entries')}}" name="drop-down">
-    
-    <select name ="number-posts" required>
-        <option value = "5" name = "5">5</option>
-        <option value = "10" name = "10">10</option>
-        <option value = "15" name = "15">15</option>
+<form method = "POST" name="drop-down" id = "drop-down">
+    <select id = "drop-down" name ="drop-down" onchange="this.form.submit()" required>
+        <option value = "{{PAGINATE_BY}}" name="option1">{{PAGINATE_BY}}</option>
+        <option value = "{{PAGINATE_B}}" name = "option2">{{PAGINATE_B}}</option>
+        <option value = "{{PAGINATE_C}}" name = "option3">{{PAGINATE_C}}</option>
     </select>
-    <input type ="submit" value = "Submit" name ="test">
+       <noscript><input type ="submit" value ="Submit"></noscript>
 </form>
 
 {%for entry in entries %}

@@ -23,3 +23,19 @@ When trying to delete record try and use methods=["DELETE"]) - have to leave bla
 I tried all other post/get/put/delete and none worked except for blank
 
 
+<span>
+    <form method = "link" formaction = "/entry/47/delete">
+        <input type = "submit" value = "Yes" method="POST" name = "button-yes">
+        <input type = "submit" value = "No" method="POST" name = "button-no">
+    </form>
+</span>    
+
+
+sudo service postgresql start
+
+Use action in the form to redirect i.e. with url_for do not use formaction - will not work
+If you use form method = link then it amends the link, and doesn't redirect you. i.e. 
+I think it bascially adds onto the current link so if you have dom/kluz
+You can then add dom/kluz/page1 for example
+
+In a button you use formaction not action. 
