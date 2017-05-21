@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from flask import flash
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash
 from . import app
 from .database import session, Entry, User
@@ -9,7 +9,7 @@ from flask_login import current_user
 
 @app.route("/", methods = ["GET"])
 @app.route("/page/<int:page>")
-def entries(page=1):
+def entries(page=1, login="login"):
     #ZERO-INDEXED PAGE
     PAGINATE_BY = 15
     PAGINATE_B = 10
@@ -27,6 +27,11 @@ def entries(page=1):
     entries = entries.order_by(Entry.datetime.desc()) # this is referring to descending order.
     entries = entries[start:end]
     
+    if current_user.is_authenticated == True:
+        login="logout"
+    
+    
+    
     return render_template("entries.html",
                             entries = entries,
                             has_next = has_next,
@@ -35,12 +40,13 @@ def entries(page=1):
                             total_pages=total_pages,
                             PAGINATE_BY=PAGINATE_BY,
                             PAGINATE_B=PAGINATE_B,
-                            PAGINATE_C=PAGINATE_C)
+                            PAGINATE_C=PAGINATE_C,
+                            login=login)
 
 
 @app.route("/", methods = ["POST"])
 @app.route("/page/<int:page>")
-def entries_view(page=1):
+def entries_view(page=1,login="login"):
     PAGINATE_BY = int(request.form['drop-down']) # using the name attribute from select
     page_index= page -1
     
@@ -67,6 +73,8 @@ def entries_view(page=1):
     entries = entries.order_by(Entry.datetime.desc()) # this is referring to descending order.
     entries = entries[start:end]
     
+    current_user=current_user
+    
     return render_template("entries.html",
                             entries = entries,
                             has_next = has_next,
@@ -75,7 +83,8 @@ def entries_view(page=1):
                             total_pages=total_pages,
                             PAGINATE_BY=PAGINATE_BY,
                             PAGINATE_B=PAGINATE_B,
-                            PAGINATE_C=PAGINATE_C)
+                            PAGINATE_C=PAGINATE_C,
+                            current_user=current_user)
 
 
 @app.route("/entry/add", methods = ["GET"])
@@ -118,10 +127,12 @@ def edit_entry_post(article_id=1):
 
 
 @app.route("/entry/<article_id>/delete", methods = ["GET"])
+@login_required
 def delete_entry_get(article_id=1):
     return render_template("confirm2.html", article_id=article_id)
 
 @app.route("/entry/<article_id>/delete/entries", methods = ["POST"])
+@login_required
 def delete_entry_post(article_id=1):
     if request.form["delete"]=="yes":
         entry_delete = session.query(Entry).filter(Entry.id==article_id).first()
@@ -131,6 +142,8 @@ def delete_entry_post(article_id=1):
     else:
         return redirect (url_for("entries"))
 
+
+# at one point this was an alternative way to have a confirmation button.
 #@app.route("/entry/<article_id>/delete", methods = ["POST"])
 #@login_required
 #def delete_entry_post(article_id=1):
@@ -148,7 +161,6 @@ def login_get():
     return render_template("login.html")
 
 
-
 @app.route("/login", methods = ["POST"])
 def login_post():
     email = request.form["email"]
@@ -159,5 +171,10 @@ def login_post():
         return redirect(url_for("login_get"))
     
     login_user(user)
-    return redirect(request.args.get("next") or url_for("entries"))
-    
+    return redirect(request.args.get("next") or url_for('entries'))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("entries"))

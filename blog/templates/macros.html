@@ -1,6 +1,6 @@
 
 
-{% macro render_entry(entry) %}
+{% macro render_entry(entry,current_user) %}
 <div class = "row">
     <div class = "col-md-2 text-right metadata">
         <ul class = "list-unstyled">
@@ -13,6 +13,7 @@
         <a class = "clickable-link" href = "{{url_for('view_entry',article_id = entry.id )}}" >{{entry.title}}</a></a>
         {{ entry.content | markdown}}
         {{entry.author.name}}
+
     </div>
 </div>
 {% endmacro %}

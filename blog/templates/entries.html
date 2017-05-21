@@ -4,6 +4,13 @@
 
 {% block content %}
 
+{% if login == "login" %}
+<a href = "{{url_for('login_get')}}">{{login}}</a>
+{%else%}
+<a href = "{{url_for('logout')}}">{{login}}</a>
+<a href = "{{url_for('add_entry_get')}}">Add entry</a>
+{%endif%}
+
 
 <h1 class="drop-down-heading">Entries per page</h1>
 
@@ -17,7 +24,7 @@
 </form>
 
 {%for entry in entries %}
-{{macros.render_entry(entry)}}
+{{macros.render_entry(entry,current_user)}}
 {% endfor %}
 
 <ul class = "pager">
