@@ -8,7 +8,7 @@ class DevelopmentConfig(object):
 
 class TestingConfig(object):
     SQLALCHEMY_DATABASE_URI = "postgresql://ubuntu:thinkful@localhost:5432/blogful-test"
-    DEBUG = True
+    DEBUG = False
     SECRET_KEY = "Not secret"
     
 class TravisConfig(object):

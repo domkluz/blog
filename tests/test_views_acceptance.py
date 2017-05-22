@@ -19,13 +19,13 @@ class TestViews(unittest.TestCase):
         self.browser = Browser("phantomjs")
 
         # Set up the tables in the database
-        #Base.metadata.create_all(engine)
+        Base.metadata.create_all(engine)
 
         # Create an example user
-        #self.user = User(name="Alice", email="alice@example.com",
-                         #password=generate_password_hash("test"))
-        #session.add(self.user)
-        #session.commit()
+        self.user = User(name="Alice", email="alice@example.com",
+                         password=generate_password_hash("test"))
+        session.add(self.user)
+        session.commit()
 
         self.process = multiprocessing.Process(target=app.run,
                                                kwargs={"port": 8080})
@@ -53,8 +53,8 @@ class TestViews(unittest.TestCase):
         # Remove the tables and their data from the database
         self.process.terminate()
         session.close()
-        #engine.dispose()
-        #Base.metadata.drop_all(engine)
+        engine.dispose()
+        Base.metadata.drop_all(engine)
         self.browser.quit()
 
 if __name__ == "__main__":
